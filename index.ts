@@ -1,6 +1,4 @@
 import { ApolloServer } from "apollo-server";
-// import { DateTimeResolver } from "graphql-scalars";
-
 import { PrismaClient } from '@prisma/client';
 // const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
@@ -80,11 +78,15 @@ const resolvers = {
       const { prisma } = context;
       return await prisma.post.findUnique({})
     },
-    incrementPostViewCount: ( parent, args, context) => {
+    incrementPostViewCount: async ( parent, args, context) => {
       const { prisma } = context;
-      return prisma.post.findUnique({
+      return await prisma.post.update({
         where: { id: args.id},
-        
+        data: {
+          viewCount: {
+            increment: 1,
+          }
+        }
       })
     },
     deletePost: async (parent, args, context) => {
