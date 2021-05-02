@@ -14,7 +14,7 @@ model User {
   id    String  @id @default(cuid())
   email String  @unique
   name  String?
-  post  Post[]  @relation(name: "UserToPost")
+  posts Post[]  @relation(name: "UserToPost")
 }
 
 model Post {
